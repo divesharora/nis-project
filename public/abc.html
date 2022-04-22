@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  </head>
+  <body></body>
+  <script>
+    async function run() {
+      var keyData = await window.crypto.subtle.generateKey(
+        {
+          name: "AES-GCM",
+          length: 256,
+        },
+        true,
+        ["encrypt", "decrypt"]
+      );
+
+      var message = new TextEncoder("utf-8").encode("abcd");
+      console.log(message);
+      console.log(new TextDecoder("utf-8").decode(message));
+      const iv = window.crypto.getRandomValues(new Uint8Array(12));
+      function encryptMessage(key, message) {
+        console.log(key);
+        // iv will be needed for decryption
+
+        return window.crypto.subtle.encrypt(
+          {
+            name: "AES-GCM",
+            iv: iv,
+          },
+          key,
+          message
+        );
+      }
+      console.log(
+        new TextDecoder("utf-8").decode(await encryptMessage(keyData, message))
+      );
+
+      function decryptMessage(key, ciphertext) {
+        return window.crypto.subtle.decrypt(
+          {
+            name: "AES-GCM",
+            iv: iv,
+          },
+          key,
+          ciphertext
+        );
+      }
+      let ciphertext = await encryptMessage(keyData, message);
+      console.log(
+        new TextDecoder("utf-8").decode(
+          await decryptMessage(keyData, ciphertext)
+        )
+      );
+    }
+
+    run();
+  </script>
+</html>

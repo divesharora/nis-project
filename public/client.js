@@ -58,6 +58,11 @@
       reader.readAsArrayBuffer(file);
     });
 
+ 
+
+
+
+
   function shareFile(metadata, buffer, progress_node) {
     socket.emit("file-meta", {
       uid: receiverID,
@@ -82,4 +87,6 @@
       }
     });
   }
+
+
 })();
