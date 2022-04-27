@@ -42,8 +42,9 @@
         el.classList.add("item");
         el.innerHTML = `
 					<div class="progress">0%</div>
-					<div class="filename">${file.name}</div>
-			`;
+					<div class="filename">${file.name}</div>`;
+          
+
         document.querySelector(".files-list").appendChild(el);
         shareFile(
           {
@@ -57,10 +58,6 @@
       };
       reader.readAsArrayBuffer(file);
     });
-
- 
-
-
 
 
   function shareFile(metadata, buffer, progress_node) {
